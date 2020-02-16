@@ -9,7 +9,7 @@ import com.amap.api.location.AMapLocationListener
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.stetho.Stetho
 import com.tencent.bugly.crashreport.CrashReport
-import com.xing.launchstarter.TaskDispatcher
+import com.xing.launchstarter.LaunchStarter
 import com.xing.mylaunch.tasks.*
 
 /**
@@ -37,10 +37,10 @@ class BaseApp : Application() {
 //        initJPush()
 //        initStetho()
 
-        TaskDispatcher.init(this)
+        LaunchStarter.init(this)
 
-        val dispatcher = TaskDispatcher.createInstance()
-        dispatcher
+        val launchStarter = LaunchStarter.createInstance()
+        launchStarter
             .addTask(InitAMapTask())
             .addTask(GetDeviceIdTask())
             .addTask(InitBuglyTask())
@@ -48,7 +48,8 @@ class BaseApp : Application() {
             .addTask(InitJPushTask())
             .addTask(InitStethoTask())
             .start()
-        dispatcher.await()
+        // 有必须初始化完成的任务 调用
+        launchStarter.await()
 
         LaunchTimer.endRecord()
     }

@@ -3,7 +3,7 @@ package com.xing.launchstarter.task
 import android.os.Looper
 import android.os.Process
 import androidx.core.os.TraceCompat
-import com.xing.launchstarter.TaskDispatcher
+import com.xing.launchstarter.LaunchStarter
 import com.xing.launchstarter.stat.TaskStat
 import com.xing.launchstarter.utils.DispatcherLog
 
@@ -15,7 +15,7 @@ import com.xing.launchstarter.utils.DispatcherLog
  */
 class DispatchRunnable(
     private val mTask: Task?,
-    private val mTaskDispatcher: TaskDispatcher? = null
+    private val mLaunchStarter: LaunchStarter? = null
 ) : Runnable {
 
     override fun run() {
@@ -38,16 +38,15 @@ class DispatchRunnable(
         mTask.run()
 
         // 执行Task的尾部任务
-        val tailRunnable = mTask.getTailRunnable()
-        tailRunnable?.run()
+        mTask.getTailRunnable()?.run()
 
         if (!mTask.needCall() || !mTask.runOnMainThread()) {
             printTaskLog(startTime, waitTime)
             TaskStat.markTaskDone()
             mTask.setFinished(true)
-            if (mTaskDispatcher != null) {
-                mTaskDispatcher.satisfyChildren(mTask)
-                mTaskDispatcher.markTaskDone(mTask)
+            if (mLaunchStarter != null) {
+                mLaunchStarter.satisfyChildren(mTask)
+                mLaunchStarter.markTaskDone(mTask)
             }
             DispatcherLog.i("${mTask.javaClass.simpleName} finish")
         }

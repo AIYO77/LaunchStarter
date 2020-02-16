@@ -24,7 +24,7 @@ import kotlin.collections.ArrayList
  *
  * Desc:
  */
-class TaskDispatcher {
+class LaunchStarter {
 
     companion object {
         private const val WAIT_TIME = 10000
@@ -54,11 +54,11 @@ class TaskDispatcher {
             }
         }
 
-        fun createInstance(): TaskDispatcher {
+        fun createInstance(): LaunchStarter {
             if (!sHasInit) {
                 throw RuntimeException("Must call TaskDispatcher.init first")
             }
-            return TaskDispatcher()
+            return LaunchStarter()
         }
 
         fun getContext(): Context? {
@@ -71,7 +71,7 @@ class TaskDispatcher {
     }
 
 
-    fun addTask(task: Task?): TaskDispatcher {
+    fun addTask(task: Task?): LaunchStarter {
         if (task != null) {
             collectDepends(task)
             mAllTasks.add(task)

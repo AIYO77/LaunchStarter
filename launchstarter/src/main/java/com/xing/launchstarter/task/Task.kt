@@ -1,7 +1,7 @@
 package com.xing.launchstarter.task
 
 import android.os.Process
-import com.xing.launchstarter.TaskDispatcher
+import com.xing.launchstarter.LaunchStarter
 import com.xing.launchstarter.utils.DispatcherExecutor
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
@@ -25,7 +25,7 @@ abstract class Task : ITask {
 
     // 当前Task依赖的Task数量（需要等待被依赖的Task执行完毕才能执行自己），默认没有依赖
     private val mDepends = CountDownLatch(if (dependsOn() == null) 0 else dependsOn()!!.size)
-    protected var mContext = TaskDispatcher.getContext()
+    protected var mContext = LaunchStarter.getContext()
 
 
     /**
