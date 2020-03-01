@@ -13,6 +13,15 @@ LaunchStarter是充分利用CPU多核，自动梳理任务顺序，提升APP的5
 在项目的`build.gradle`文件中添加：
 
 ```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+```groovy
 compile 'com.github.masterxing:LaunchStarter:{release}'
 ```
 
@@ -21,8 +30,8 @@ compile 'com.github.masterxing:LaunchStarter:{release}'
 在Application中调用：
 
 ```java
- TaskDispatcher.init(this)
- TaskDispatcher.createInstance().apply {
+ LaunchStarter.init(this)
+ LaunchStarter.createInstance().apply {
             addTask(ATask())
             addTask(BTask())
 		...
