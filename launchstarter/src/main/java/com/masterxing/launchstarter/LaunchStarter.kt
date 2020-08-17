@@ -178,7 +178,7 @@ class LaunchStarter {
         if (ifNeedWait(task)) {
             mFinishedTasks.add(task.javaClass)
             mNeedWaitTasks.remove(task)
-            mCountDownLatch!!.countDown()
+            mCountDownLatch?.countDown()
             mNeedWaitCount.getAndDecrement()
         }
     }
@@ -217,12 +217,12 @@ class LaunchStarter {
         try {
             if (DispatcherLog.isDebug()) {
                 DispatcherLog.i("still has " + mNeedWaitCount.get())
-                for (task in mNeedWaitTasks) {
-                    DispatcherLog.i("needWait: " + task.javaClass.simpleName)
-                }
+//                for (task in mNeedWaitTasks) {
+//                    DispatcherLog.i("needWait: " + task::class.java.simpleName)
+//                }
             }
             if (mNeedWaitCount.get() > 0) {
-                mCountDownLatch!!.await(
+                mCountDownLatch?.await(
                     WAIT_TIME.toLong(),
                     TimeUnit.MILLISECONDS
                 )
